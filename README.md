@@ -1,4 +1,4 @@
 it-266-102
 ==========
 
-quake 2 mods
+This is the repository where I make quake 2 mods.
