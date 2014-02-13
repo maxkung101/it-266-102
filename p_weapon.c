@@ -1192,7 +1192,8 @@ void weapon_shotgun_fire (edict_t *ent)
 
 	if (is_quad)
 	{
-		damage *= 4;
+		//damage *= 4;
+		damage *= 7;
 		kick *= 4;
 	}
 
