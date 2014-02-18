@@ -520,7 +520,8 @@ GRENADE
 ======================================================================
 */
 
-#define GRENADE_TIMER		3.0
+//#define GRENADE_TIMER		3.0
+#define GRENADE_TIMER		5.0
 #define GRENADE_MINSPEED	400
 #define GRENADE_MAXSPEED	800
 
@@ -529,7 +530,8 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 	vec3_t	offset;
 	vec3_t	forward, right;
 	vec3_t	start;
-	int		damage = 125;
+	//int		damage = 125;
+	int		damage = 130;
 	float	timer;
 	int		speed;
 	float	radius;
@@ -692,7 +694,8 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	vec3_t	offset;
 	vec3_t	forward, right;
 	vec3_t	start;
-	int		damage = 120;
+	//int		damage = 120;
+	int		damage = 125;
 	float	radius;
 
 	radius = damage+40;
@@ -753,7 +756,8 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	if (is_quad)
 	{
 		damage *= 4;
-		radius_damage *= 4;
+		//radius_damage *= 4;
+		radius_damage *= 3;
 	}
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
@@ -783,7 +787,7 @@ void Weapon_RocketLauncher (edict_t *ent)
 {
 	static int	pause_frames[]	= {25, 33, 42, 50, 0};
 	//static int	fire_frames[]	= {5, 0};
-	static int	fire_frames[]	= {7, 0};
+	static int	fire_frames[]	= {10, 0};
 
 	Weapon_Generic (ent, 4, 12, 50, 54, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
 }
@@ -845,7 +849,9 @@ void Weapon_Blaster_Fire (edict_t *ent)
 
 void Weapon_Blaster (edict_t *ent)
 {
-	static int	pause_frames[]	= {19, 32, 0};
+	//static int	pause_frames[]	= {19, 32, 0};
+	static int	pause_frames[]	= {19, 38, 0};
+	//static int	fire_frames[]	= {5, 0};
 	static int	fire_frames[]	= {5, 0};
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
@@ -943,8 +949,10 @@ void Machinegun_Fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		angles;
-	int			damage = 8;
-	int			kick = 2;
+	//int			damage = 8;
+	int			damage = 9;
+	//int			kick = 2;
+	int			kick = 3;
 	vec3_t		offset;
 
 	if (!(ent->client->buttons & BUTTON_ATTACK))
