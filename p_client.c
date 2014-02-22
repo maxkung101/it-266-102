@@ -355,7 +355,8 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 				break;
 			case MOD_HG_SPLASH:
 				message = "didn't see";
-				message2 = "'s handgrenade";
+				//message2 = "'s handgrenade";
+				message2 = "'s land mine";
 				break;
 			case MOD_HELD_GRENADE:
 				message = "feels";
