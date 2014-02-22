@@ -224,7 +224,8 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 			message = "melted";
 			break;
 		case MOD_LAVA:
-			message = "does a back flip into the lava";
+			//message = "does a back flip into the lava";
+			message = "fell into the lava";
 			break;
 		case MOD_EXPLOSIVE:
 		case MOD_BARREL:
