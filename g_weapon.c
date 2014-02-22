@@ -555,6 +555,7 @@ void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int 
 	grenade->think = Grenade_Explode;
 	grenade->dmg = damage;
 	grenade->dmg_radius = damage_radius;
+	//grenade->classname = "hgrenade";
 	grenade->classname = "hgrenade";
 	if (held)
 		grenade->spawnflags = 3;
