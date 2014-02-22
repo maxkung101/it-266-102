@@ -33,7 +33,31 @@ static void check_dodge (edict_t *self, vec3_t start, vec3_t dir, int speed)
 	}
 }
 
+/*
+=================
+Fire Melee
+=================
 
+
+void fire_melee(edict_t *self, vec3_t start, vec3_t direction, float range, int damage, float kick, int mod)
+{
+	qboolean didHit =  false;
+	vec3_t             end;
+	trace_t            tr;
+	int                color;
+
+	tr = gi.trace (self->s.origin, NULL, NULL, start, self, MASK_SHOT);
+	if (tr.fraction < 1)
+	{
+		// hit something
+		didHit = true;
+	}
+	else
+	{
+		VectorMA (start, range, forward, end);
+	}
+}
+*/
 /*
 =================
 fire_hit
@@ -173,6 +197,7 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 				{
 					gi.WriteByte (svc_temp_entity);
 					gi.WriteByte (TE_SPLASH);
+					//gi.WriteByte (8);
 					gi.WriteByte (8);
 					gi.WritePosition (tr.endpos);
 					gi.WriteDir (tr.plane.normal);
@@ -481,7 +506,7 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	VectorMA (grenade->velocity, 200 + crandom() * 20.0, up, grenade->velocity);
 	VectorMA (grenade->velocity, crandom() * 10.0, right, grenade->velocity);
 	//VectorSet (grenade->avelocity, 300, 300, 300);
-	VectorSet (grenade->avelocity, 400, 100, 500);
+	VectorSet (grenade->avelocity, 5, 5, 5);
 	grenade->movetype = MOVETYPE_BOUNCE;
 	grenade->clipmask = MASK_SHOT;
 	grenade->solid = SOLID_BBOX;

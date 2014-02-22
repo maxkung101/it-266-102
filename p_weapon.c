@@ -522,7 +522,9 @@ GRENADE
 
 //#define GRENADE_TIMER		3.0
 #define GRENADE_TIMER		5.0
-#define GRENADE_MINSPEED	400
+//#define GRENADE_MINSPEED	400
+#define GRENADE_MINSPEED	50
+//#define GRENADE_MAXSPEED	800
 #define GRENADE_MAXSPEED	800
 
 void weapon_grenade_fire (edict_t *ent, qboolean held)
@@ -536,7 +538,8 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 	int		speed;
 	float	radius;
 
-	radius = damage+40;
+	//radius = damage+40;
+	radius = damage+90;
 	if (is_quad)
 		damage *= 4;
 
@@ -794,6 +797,35 @@ void Weapon_RocketLauncher (edict_t *ent)
 	Weapon_Generic (ent, 4, 12, 50, 54, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
 }
 
+
+/*
+======================================================================
+
+GRAPLING HOOK
+
+======================================================================
+
+
+void Tool_Grapling_Fire (edict_t *ent)
+{
+	int		damage;
+
+	if (deathmatch->value)
+		damage = 15;
+	else
+		damage = 10;
+	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
+	ent->client->ps.gunframe++;
+}
+
+void Tool_Grapling (edict_t *ent)
+{
+	static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {4, 5, 6, 0};
+
+	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Grapling_Fire);
+}
+*/
 
 /*
 ======================================================================
