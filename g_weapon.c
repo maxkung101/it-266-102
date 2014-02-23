@@ -489,6 +489,23 @@ static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurfa
 	Grenade_Explode (ent);
 }
 
+void Grenade_Think (edict_t *self)
+{
+        int big_hairy_ape;
+
+        for(big_hairy_ape = 0; big_hairy_ape < 150; big_hairy_ape++)  // constantly go down
+        {
+               self->s.origin[2] -= .25;
+               M_CheckGround(self);                  // check and see if on ground
+               if (self->groundentity)
+               {
+                       self->s.origin[2] += 5;               // if on ground, raise it a bit
+                       self->groundentity = NULL;
+               }
+        }
+        self->nextthink = level.time + FRAMETIME;
+}
+
 void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius)
 {
 	edict_t	*grenade;
@@ -503,9 +520,9 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	VectorScale (aimdir, speed, grenade->velocity);
 	VectorMA (grenade->velocity, 200 + crandom() * 10.0, up, grenade->velocity);
 	VectorMA (grenade->velocity, crandom() * 10.0, right, grenade->velocity);
-	//VectorSet (grenade->avelocity, 300, 300, 300);
-	VectorSet (grenade->avelocity, 5, 5, 5);
-	grenade->movetype = MOVETYPE_BOUNCE;
+	VectorSet (grenade->avelocity, 300, 300, 300);
+	//grenade->movetype = MOVETYPE_BOUNCE;
+	grenade->movetype = MOVETYPE_FLYMISSILE;
 	grenade->clipmask = MASK_SHOT;
 	grenade->solid = SOLID_BBOX;
 	grenade->s.effects |= EF_GRENADE;
@@ -521,6 +538,9 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	grenade->classname = "grenade";
 
 	gi.linkentity (grenade);
+
+	grenade->think = Grenade_Think;              // added this junk
+	grenade->nextthink = level.time + FRAMETIME; // added this junk
 }
 
 void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held)
