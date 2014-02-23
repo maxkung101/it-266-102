@@ -211,6 +211,8 @@ typedef struct
 #define WEAP_HYPERBLASTER		9 
 #define WEAP_RAILGUN			10
 #define WEAP_BFG				11
+#define WEAP_DEATHRAY           12
+//#define WEAP_GRAPLING 13
 
 typedef struct gitem_s
 {
@@ -479,6 +481,8 @@ extern	int	body_armor_index;
 #define MOD_TRIGGER_HURT	31
 #define MOD_HIT				32
 #define MOD_TARGET_BLASTER	33
+#define MOD_DEATHRAY        34
+#define MOD_GRAPLING        35
 #define MOD_FRIENDLY_FIRE	0x8000000
 
 extern	int	meansOfDeath;
@@ -938,6 +942,12 @@ struct gclient_s
 	int			flood_whenhead;		// head pointer for when said
 
 	float		respawn_time;		// can respawn when time > this
+
+	//Grapple Variables
+    edict_t        *hook;       
+    edict_t        *hook_touch; 
+    qboolean    on_hook;     
+    int             hook_frame;
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
