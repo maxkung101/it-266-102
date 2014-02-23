@@ -773,7 +773,15 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
-	fire_rocket (ent, start, forward, damage, 350, damage_radius, radius_damage);
+	fire_rocket (ent, start, forward, damage, 300, damage_radius, radius_damage);
+
+	VectorSet(offset, 0, 0, ent->viewheight-8);
+	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+	fire_rocket (ent, start, forward, damage, 300, damage_radius, radius_damage);
+
+	VectorSet(offset, 16, 16, ent->viewheight-8);
+	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+	fire_rocket (ent, start, forward, damage, 300, damage_radius, radius_damage);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -797,36 +805,6 @@ void Weapon_RocketLauncher (edict_t *ent)
 
 	Weapon_Generic (ent, 4, 12, 50, 54, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
 }
-
-
-/*
-======================================================================
-
-GRAPLING HOOK
-
-======================================================================
-
-
-void Weapon_Grapling_Fire (edict_t *ent)
-{
-	int		damage;
-
-	if (deathmatch->value)
-		damage = 15;
-	else
-		damage = 10;
-	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
-	ent->client->ps.gunframe++;
-}
-
-void Weapon_Grapling (edict_t *ent)
-{
-	static int	pause_frames[]	= {19, 32, 0};
-	static int	fire_frames[]	= {4, 5, 6, 0};
-
-	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Grapling_Fire);
-}
-*/
 
 /*
 ======================================================================
@@ -871,6 +849,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 void Weapon_Blaster_Fire (edict_t *ent)
 {
 	int		damage;
+	vec3_t tempvec;
 
 	if (deathmatch->value)
 		//damage = 15;
@@ -879,6 +858,16 @@ void Weapon_Blaster_Fire (edict_t *ent)
 		//damage = 10;
 		damage = 15;
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
+
+	// add 2 new bolts below
+	VectorSet(tempvec, 0, 8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, -8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
 	ent->client->ps.gunframe++;
 }
 
@@ -919,6 +908,44 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 		}
 		else
 		{
+			// STEVE .... the lines below are new !
+			// ...........TRIPLE HYPER BLASTER !!!
+
+			if ((ent->client->ps.gunframe == 6) || (ent->client->ps.gunframe == 9))
+				effect = EF_HYPERBLASTER;
+			else
+				effect = 0;
+
+			// change the offset radius to 6 (from 4), spread the bolts out a little
+			rotation = (ent->client->ps.gunframe - 5) * 2*M_PI/6;
+			offset[0] = 0;
+			offset[1] = -8 * sin(rotation);
+			offset[2] = 8 * cos(rotation);
+			Blaster_Fire (ent, offset, 20, true, effect);
+
+			// fire a second blast at a different rotation
+			rotation = (ent->client->ps.gunframe - 5) * 2*M_PI/6 + M_PI*2.0/3.0;
+			offset[0] = 0;
+			offset[1] = -8 * sin(rotation);
+			offset[2] = 8 * cos(rotation);
+			Blaster_Fire (ent, offset, 20, true, effect);
+
+			// fire a third blast at a different rotation
+			rotation = (ent->client->ps.gunframe - 5) * 2*M_PI/6 + M_PI*4.0/3.0;
+			offset[0] = 0;
+			offset[1] = -8 * sin(rotation);
+			offset[2] = 8 * cos(rotation);
+			Blaster_Fire (ent, offset, 20, true, effect);
+			// deduct 3 times the amount of ammo as before (... the *3 on end)
+			ent->client->pers.inventory[ent->client->ammo_index] -= ent->client->pers.weapon->quantity * 3;
+
+			/*
+			if ((ent->client->ps.gunframe == 6) || (ent->client->ps.gunframe == 9))
+				effect = EF_HYPERBLASTER;
+			else
+				effect = 0;
+
+			// change the offset radius to 6 (from 4), spread the bolts out a little
 			rotation = (ent->client->ps.gunframe - 5) * 2*M_PI/6;
 			offset[0] = -4 * sin(rotation);
 			offset[1] = 0;
@@ -947,6 +974,7 @@ void Weapon_HyperBlaster_Fire (edict_t *ent)
 				ent->s.frame = FRAME_attack1 - 1;
 				ent->client->anim_end = FRAME_attack8;
 			}
+			*/
 		}
 
 		ent->client->ps.gunframe++;
