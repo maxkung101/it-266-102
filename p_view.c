@@ -421,6 +421,38 @@ void SV_CalcBlend (edict_t *ent)
 		SV_AddBlend (0.5, 0.3, 0.2, 0.4, ent->client->ps.blend);
 
 	// add for powerups
+
+	/*ATTILA begin*/
+	if ( Jet_Active(ent) )
+	{
+		/*GOD -> dont burn out*/
+		if ( ent->flags & FL_GODMODE )
+			if ( (ent->client->Jet_framenum - level.framenum) <= 100 )
+				ent->client->Jet_framenum = level.framenum + 700;
+
+		/*update the fuel time*/
+		ent->client->Jet_remaining = ent->client->Jet_framenum - level.framenum;
+
+		/*if no fuel remaining, remove jetpack from inventory*/ 
+		if ( ent->client->Jet_remaining == 0 )
+			ent->client->pers.inventory[ITEM_INDEX(FindItem("Jetpack"))] = 0;
+
+		/*Play jetting sound every 0.6 secs (sound of monster icarus)*/
+		if ( ((int)ent->client->Jet_remaining % 6) == 0 )
+			gi.sound (ent, CHAN_AUTO, gi.soundindex("hover/hovidle1.wav"), 0.9, ATTN_NORM, 0);
+
+		/*beginning to fade if 4 secs or less*/
+		if (ent->client->Jet_remaining <= 40)
+			/*play on/off sound every sec*/
+			if ( ((int)ent->client->Jet_remaining % 10) == 0 )
+				gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
+
+		if (ent->client->Jet_remaining > 40 || ( (int)ent->client->Jet_remaining & 4) )
+			SV_AddBlend (0, 0, 1, 0.08, ent->client->ps.blend);
+	}
+	else
+/*ATTILA end*/
+
 	if (ent->client->quad_framenum > level.framenum)
 	{
 		remaining = ent->client->quad_framenum - level.framenum;
@@ -633,6 +665,13 @@ void P_WorldEffects (void)
 	//
 	if (waterlevel == 3)
 	{
+
+		/*ATTILA begin*/
+		if ( Jet_Active(current_player) ) /*dont jet and dive and stay alive*/
+			T_Damage (current_player, world, world, vec3_origin, current_player->s.origin, vec3_origin, current_player->health+1, 0, DAMAGE_NO_ARMOR, 36);
+
+		/*ATTILA end*/
+
 		// breather or envirosuit give air
 		if (breather || envirosuit)
 		{

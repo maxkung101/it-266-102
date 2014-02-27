@@ -483,6 +483,7 @@ extern	int	body_armor_index;
 #define MOD_TARGET_BLASTER	33
 #define MOD_DEATHRAY        34
 #define MOD_GRAPLING        35
+#define MOD_JETPACK         36
 #define MOD_FRIENDLY_FIRE	0x8000000
 
 extern	int	meansOfDeath;
@@ -822,6 +823,10 @@ typedef struct
 	qboolean	connected;			// a loadgame will leave valid entities that
 									// just don't have a connection yet
 
+	float enviro_framenum;
+
+	qboolean      grenade_blew_up;
+
 	// values saved and restored from edicts when changing levels
 	int			health;
 	int			max_health;
@@ -951,6 +956,12 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+
+	/*ATTILA begin*/
+	float Jet_framenum;   /*burn out time when jet is activated*/
+	float Jet_remaining;  /*remaining fuel time*/
+	float Jet_next_think;
+	/*ATTILA end*/
 };
 
 

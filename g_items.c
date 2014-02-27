@@ -34,6 +34,33 @@ static int	power_shield_index;
 void Use_Quad (edict_t *ent, gitem_t *item);
 static int	quad_drop_timeout_hack;
 
+/*ATTILA begin*/
+
+void Use_Jet ( edict_t *ent, gitem_t *item )
+{
+	ValidateSelectedItem ( ent );
+
+    /*jetpack in inventory but no fuel time? must be one of the
+      give all/give jetpack cheats, so put fuel in*/
+
+	if ( ent->client->Jet_remaining == 0 )
+      ent->client->Jet_remaining = 700;
+
+	if ( Jet_Active(ent) ) 
+      ent->client->Jet_framenum = 0; 
+    else
+      ent->client->Jet_framenum = level.framenum + ent->client->Jet_remaining;
+
+    /*The On/Off Sound taken from the invulnerability*/
+    gi.sound( ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 0.8, ATTN_NORM, 0 );
+
+    /*this is the sound played when flying. To here this sound 
+      immediately we play it here the first time*/
+
+    gi.sound ( ent, CHAN_AUTO, gi.soundindex("hover/hovidle1.wav"), 0.8, ATTN_NORM, 0 );
+}
+/*ATTILA end*/
+
 //======================================================================
 
 /*
@@ -150,6 +177,26 @@ qboolean Pickup_Powerup (edict_t *ent, edict_t *other)
 		return false;
 
 	other->client->pers.inventory[ITEM_INDEX(ent->item)]++;
+
+	/*ATTILA begin*/
+
+	if  ( Q_stricmp(ent->item->pickup_name, "Jetpack") == 0 )
+	{
+		other->client->pers.inventory[ITEM_INDEX(ent->item)] = 1;
+		other->client->Jet_remaining = 700;
+
+		/*if deathmatch-flag instant use is set, switch off the jetpack, 
+		the item->use function will turn it on again immediately*/
+
+		if ( (int)dmflags->value & DF_INSTANT_ITEMS )
+			other->client->Jet_framenum = 0;
+
+			/*otherwise update the burn out time if jetpack is activated*/
+		else 
+			if ( Jet_Active(other) )
+				other->client->Jet_framenum = level.framenum + other->client->Jet_remaining;
+	}
+	/*ATTILA end*/
 
 	if (deathmatch->value)
 	{
@@ -1665,30 +1712,66 @@ always owned, never in the world
 
 
 	//
-	// POWERUP ITEMS
-	//
-/*QUAKED item_quad (.3 .3 1) (-16 -16 -16) (16 16 16)
+    // POWERUP ITEMS
+    //
+ 
+  /*ATTILA begin*/
+  /*QUAKED item_jet (.3 .3 1) (-16 -16 -16) (16 16 16)
+  */
+  {
+    "item_quad",    
+    Pickup_Powerup,
+    Use_Jet,        /*ATTILA the Use_Jet function from above*/
+    NULL,           /*ATTILA No dropping function for jetpack*/
+    NULL,
+    "items/pkup.wav",
+
+    /*ATTILA this will show the monster icarus instead of quad damage in 
+      the game*/
+    "models/monsters/hover/tris.md2", EF_ROTATE, 
+ 
+    NULL,
+  /* icon */   "p_quad",  /*ATTILA Ok, its the quad icon on screen but who cares*/
+  /* pickup */ "Jetpack", /*ATTILA now we can use it with the use command*/
+  /* width */  2,
+    60,                   /*ATTILA respwan after 60 secs*/ 
+    NULL,
+    0,
+    NULL,
+    0,
+  /* precache */ "hover/hovidle1.wav items/damage.wav items/damage2.wav items/damage3.wav"
+  },
+  /*Attila end*/
+ 
+
+  /*ATTILA This is the original quad damage struct. It has to be
+    commented.*/
+  /*
+  //QUAKED item_quad (.3 .3 1) (-16 -16 -16) (16 16 16)
+  {
+    "item_quad",
+    Pickup_Powerup,
+    Use_Quad,
+    Drop_General,
+    NULL,
+    "items/pkup.wav",
+    "models/items/quaddama/tris.md2", EF_ROTATE,
+    NULL,
+    // icon
+    "p_quad",
+    // pickup
+          "Quad Damage",
+    // width
+          2,
+    60,
+    NULL,
+    0,
+    NULL,
+    0,
+// precache
+          "items/damage.wav items/damage2.wav items/damage3.wav"
+  },
 */
-	{
-		"item_quad", 
-		Pickup_Powerup,
-		Use_Quad,
-		Drop_General,
-		NULL,
-		"items/pkup.wav",
-		"models/items/quaddama/tris.md2", EF_ROTATE,
-		NULL,
-/* icon */		"p_quad",
-/* pickup */	"Quad Damage",
-/* width */		2,
-		60,
-		NULL,
-		IT_POWERUP,
-		0,
-		NULL,
-		0,
-/* precache */ "items/damage.wav items/damage2.wav items/damage3.wav"
-	},
 
 /*QUAKED item_invulnerability (.3 .3 1) (-16 -16 -16) (16 16 16)
 */

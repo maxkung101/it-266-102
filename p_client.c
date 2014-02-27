@@ -228,6 +228,9 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 			//message = "does a back flip into the lava";
 			message = "fell into the lava";
 			break;
+		case MOD_JETPACK:
+			message = "does a... what the hell?";
+			break;
 		case MOD_EXPLOSIVE:
 		case MOD_BARREL:
 			message = "blew up";
@@ -538,6 +541,16 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 	self->client->breather_framenum = 0;
 	self->client->enviro_framenum = 0;
 	self->flags &= ~FL_POWER_ARMOR;
+
+	/*ATTILA begin*/
+	if ( Jet_Active(self) )
+	{
+	    Jet_BecomeExplosion( self, damage );
+	    /*stop jetting when dead*/
+	    self->client->Jet_framenum = 0;
+	}
+	else
+	/*ATTILA end*/
 
 	if (self->health < -40)
 	{	// gib
@@ -1624,6 +1637,11 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			client->ps.pmove.pm_type = PM_NORMAL;
 
 		//client->ps.pmove.gravity = sv_gravity->value;
+		/*ATTILA begin*/
+		if ( Jet_Active(ent) )
+		Jet_ApplyJet( ent, ucmd );
+		/*ATTILA end*/
+
 		pm.s = client->ps.pmove;
 
 		for (i=0 ; i<3 ; i++)
@@ -1653,6 +1671,9 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		for (i=0 ; i<3 ; i++)
 		{
 			ent->s.origin[i] = pm.s.origin[i]*0.125;
+			/*ATTILA begin*/
+			if ( !Jet_Active(ent) || (Jet_Active(ent)&&(fabs((float)pm.s.velocity[i]*0.125) < fabs(ent->velocity[i]))) )
+			/*ATTILA end*/
 			ent->velocity[i] = pm.s.velocity[i]*0.125;
 		}
 
@@ -1662,6 +1683,13 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		client->resp.cmd_angles[0] = SHORT2ANGLE(ucmd->angles[0]);
 		client->resp.cmd_angles[1] = SHORT2ANGLE(ucmd->angles[1]);
 		client->resp.cmd_angles[2] = SHORT2ANGLE(ucmd->angles[2]);
+
+		/*ATTILA begin*/
+		if ( Jet_Active(ent) )
+			if( pm.groundentity )               /*are we on ground*/
+				if ( Jet_AvoidGround(ent) )       /*then lift us if possible*/
+					pm.groundentity = NULL;         /*now we are no longer on ground*/
+		/*ATTILA end*/
 
 		if (ent->groundentity && !pm.groundentity && (pm.cmd.upmove >= 10) && (pm.waterlevel == 0))
 		{

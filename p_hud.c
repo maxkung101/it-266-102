@@ -25,6 +25,11 @@ void MoveClientToIntermission (edict_t *ent)
 	ent->client->ps.rdflags &= ~RDF_UNDERWATER;
 
 	// clean up powerup info
+	/*ATTILA begin*/
+	ent->client->Jet_framenum = 0;
+	ent->client->Jet_remaining = 0;
+	/*ATTILA end*/
+
 	ent->client->quad_framenum = 0;
 	ent->client->invincible_framenum = 0;
 	ent->client->breather_framenum = 0;
@@ -427,6 +432,15 @@ void G_SetStats (edict_t *ent)
 	//
 	// timers
 	//
+	/*ATTILA begin*/
+	if ( Jet_Active(ent) )
+	{
+		ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex ("p_quad");
+		ent->client->ps.stats[STAT_TIMER] = ent->client->Jet_remaining/10;
+	} 
+	else
+	/*ATTILA end*/
+
 	if (ent->client->quad_framenum > level.framenum)
 	{
 		ent->client->ps.stats[STAT_TIMER_ICON] = gi.imageindex ("p_quad");
