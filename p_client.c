@@ -323,7 +323,8 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 			case MOD_GRENADE:
 				//message = "was popped by";
 				message = "was blown up by";
-				message2 = "'s grenade";
+				//message2 = "'s grenade";
+				message2 = "'s timer grenade";
 				break;
 			case MOD_G_SPLASH:
 				message = "was shredded by";
