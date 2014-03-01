@@ -1,4 +1,4 @@
-it-266 Quake II
+IT-266 Quake II
 ===============
 This is the repository where I make quake 2 mods.
 
