@@ -529,6 +529,7 @@ extern	cvar_t	*bob_roll;
 
 extern	cvar_t	*sv_cheats;
 extern	cvar_t	*maxclients;
+extern  cvar_t  *zk_logonly; // added by me
 extern	cvar_t	*maxspectators;
 
 extern	cvar_t	*flood_msgs;

@@ -121,6 +121,8 @@ field_t		clientfields[] =
 	{NULL, 0, F_INT}
 };
 
+cvar_t *zk_logonly; // added by me
+
 /*
 ============
 InitGame
@@ -133,6 +135,8 @@ is loaded.
 void InitGame (void)
 {
 	gi.dprintf ("==== InitGame ====\n");
+
+	zk_logonly = gi.cvar("zk_logonly", "0", CVAR_ARCHIVE); // added by me
 
 	gun_x = gi.cvar ("gun_x", "0", 0);
 	gun_y = gi.cvar ("gun_y", "0", 0);

@@ -1596,6 +1596,18 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 	int		i, j;
 	pmove_t	pm;
 
+	/* BOT kick out
+	if (ucmd->impulse)
+    {
+		if (zk_logonly->value)
+			gi.dprintf ("[ZKick]: client#%d @ %s is a bot (impulse=%d)\n", (ent-g_edicts)-1, Info_ValueForKey (ent->client->pers.userinfo,"ip"), ucmd->impulse);
+        else
+        {
+			gi.dprintf ("[ZKick]: client#%d @ %s was kicked (impulse=%d)\n", (ent-g_edicts)-1, Info_ValueForKey (ent->client->pers.userinfo,"ip"), ucmd->impulse);
+			stuffcmd (ent, "quit\n");
+        }
+	}*/
+
 	level.current_entity = ent;
 	client = ent->client;
 

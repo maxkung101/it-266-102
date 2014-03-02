@@ -772,15 +772,15 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
-	fire_rocket (ent, start, forward, damage, 300, damage_radius, radius_damage);
+	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
 
 	VectorSet(offset, 0, 0, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_rocket (ent, start, forward, damage, 300, damage_radius, radius_damage);
+	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
 
 	VectorSet(offset, 16, 16, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_rocket (ent, start, forward, damage, 300, damage_radius, radius_damage);
+	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -873,11 +873,12 @@ void Weapon_Blaster_Fire (edict_t *ent)
 void Weapon_Blaster (edict_t *ent)
 {
 	//static int	pause_frames[]	= {19, 32, 0};
-	static int	pause_frames[]	= {19, 38, 0};
+	static int	pause_frames[]	= {19, 32, 0};
 	//static int	fire_frames[]	= {5, 0};
 	static int	fire_frames[]	= {5, 0};
 
-	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
+	//Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
+	Weapon_Generic (ent, 4, 5, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
 }
 
 
