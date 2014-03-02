@@ -8,10 +8,10 @@ Quake II is a first person shooter game developed by id software. Gameplay inclu
 
 Edits
 =====
-The default blaster, hyperblaster, and rocket launcher now shoot three bullets/missles at once.
+The blaster, hyperblaster, and rocket launcher now shoot three bullets/missles at once. I have also made the blaster shoot faster.
 
 The grenades are now timer bombs. When thrown or launched, another player has to step on it so it can explode.
 
 A new weapon has been created. It is the deathray, in which it is almost a clone of the raygun, except that it uses slugs.
 
-A new tool has been created. It is the grappling hook.
+New tools have been created: the grappling hook and the jetpack
