@@ -16,4 +16,4 @@ A new weapon has been created. It is the deathray, in which it is almost a clone
 
 New tools have been created: the grappling hook and the jetpack
 
-Play dead added
+Play dead command added
