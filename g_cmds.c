@@ -880,6 +880,37 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
+//Begin code
+/*
+=================
+Cmd_id_f
+New function to print player name and dist
+By Reven
+=================
+*/
+void Cmd_id_f (edict_t *ent)
+{
+	int j;
+    char stats[500];
+    vec3_t  start, forward, end;
+	trace_t tr;
+    j = sprintf(stats, "     NAME              RANGE\n\n");
+
+	VectorCopy(ent->s.origin, start);
+    start[2] += ent->viewheight;
+    AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+    VectorMA(start, 8192, forward, end);
+    tr = gi.trace(start, NULL, NULL, end, ent,
+	MASK_SHOT|CONTENTS_SLIME|CONTENTS_LAVA);
+
+    if (tr.ent->client)
+	{
+		j += sprintf(stats + j, "%16s          %i\n",
+		tr.ent->client->pers.netname, (int)(tr.fraction * 512));
+		gi.centerprintf(ent, "%s", stats);      
+	}
+}
+// End code
 
 /*
 =================
@@ -966,6 +997,10 @@ void ClientCommand (edict_t *ent)
 		Cmd_PutAway_f (ent);
 	else if (Q_stricmp (cmd, "wave") == 0)
 		Cmd_Wave_f (ent);
+	// new command 'id'
+	else if (Q_stricmp (cmd, "id") == 0)
+		Cmd_id_f (ent);
+	// end new commdand
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
 	else if (Q_strcasecmp (cmd, "playdead") == 0)
