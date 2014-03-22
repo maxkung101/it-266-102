@@ -1,6 +1,6 @@
 IT-266 Quake II
 ===============
-This is the repository where I make Quake II edits for NJIT's course IT 266.
+This is the repository where I make Quake II modifications for NJIT's course IT 266.
 
 About Quake II
 ==============
