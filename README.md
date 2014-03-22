@@ -16,6 +16,6 @@ A new weapon has been created. It is the deathray, in which it is almost a clone
 
 New tools have been created: the grappling hook and the jetpack
 
-Play dead command has been added. To activate, type " bind q "playdead" " at the console.
+Play dead command has been added. To activate, press " ` " (located below "ESC" and left of "1") and then type " bind q "playdead" ".
 
-Throw up command has been added. To activate, type " bind h "give throwup" " at the console.
+Throw up command has been added. To activate, press " ` " (located below "ESC" and left of "1") and then type " bind h "give throwup" ".
