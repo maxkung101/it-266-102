@@ -15,3 +15,5 @@ The grenades are now timer bombs. When thrown or launched, another player has to
 A new weapon has been created. It is the deathray, in which it is almost a clone of the raygun, except that it uses slugs.
 
 New tools have been created: the grappling hook and the jetpack
+
+Play dead added
