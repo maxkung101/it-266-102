@@ -958,6 +958,12 @@ struct gclient_s
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
 
+	// ***********************************
+	// * JMR: My new variables
+	// ***********************************
+       int                 playing_dead;       //  playing dead toggle
+	// ***********************************
+
 	/*ATTILA begin*/
 	float Jet_framenum;   /*burn out time when jet is activated*/
 	float Jet_remaining;  /*remaining fuel time*/
@@ -1114,4 +1120,5 @@ struct edict_s
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
 };
+void JMR_PlayDead (edict_t *ent);
 
