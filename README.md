@@ -10,7 +10,7 @@ Edits
 =====
 The blaster, hyperblaster, and rocket launcher now shoot three bullets/missles at once. I have also made the blaster shoot faster.
 
-The grenades are now timer bombs. When thrown or launched, another player has to step on it so it can explode.
+The grenades are now smart bombs. When thrown or launched, another player has to step on it so it can explode.
 
 A new weapon has been created. It is the deathray, in which it is almost a clone of the raygun, except that it uses slugs.
 
