@@ -8,7 +8,7 @@ Quake II is a first person shooter game developed by id software. Gameplay inclu
 
 Edits
 =====
-The blaster, hyperblaster, and rocket launcher now shoot three bullets/missles at once. I have also made the blaster shoot faster.
+The blaster, hyperblaster, and rocket launcher now shoot three blasts/rockets at once. I have also made the blaster shoot faster.
 
 The grenades are now smart bombs. When thrown or launched, another player has to step on it so it can explode.
 
